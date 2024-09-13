@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Videos - ChucklePoly.org</title>
+  <style>
+    body {
+      background-color: #f0f0f0; /* Light gray background for better contrast */
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    table {
+      width: 100%;
+      height: auto;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 0px solid blue;
+      padding: 10px;
+      text-align: center;
+    }
+
+    a {
+      text-decoration: none;
+      color: #333; /* Dark gray for better readability */
+      font-size: 1em;
+      font-family: 'Centaur', serif;
+    }
+
+    a:hover {
+      color: #FFD700; /* Gold for hover effect */
+    }
+
+    h1 {
+      font-family: 'Cascadia Code', monospace;
+      font-size: 60px;
+      text-align: center;
+      color: #333; /* Dark gray for the main heading */
+      margin-top: 20px;
+    }
+
+    h2 {
+      color: #FF6347; /* Tomato color for secondary headings */
+      font-family: 'Colonna MT', serif;
+      font-size: 40px;
+      text-align: center;
+    }
+
+    p {
+      font-size: 1.2em; /* Slightly larger text for better readability */
+      color: #666; /* Medium gray for paragraph text */
+      margin: 20px 0;
+    }
+
+    .video-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 15px; /* Increased gap between video entries */
+      margin: 20px auto;
+      max-width: 1200px; /* Set a max-width to control the layout width */
+    }
+
+    .video-entry {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .video-entry:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .video-entry img {
+      width: 100%;
+      display: block;
+    }
+
+    .video-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.7); /* Black background with opacity */
+      color: white;
+      padding: 10px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      font-size: 1em;
+      font-family: 'Centaur', serif;
+    }
+
+    .video-entry:hover .video-info {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <table>
+    <tr style="background-color: #FF6347;"> <!-- Tomato color for header row -->
+      <th><a href="Index.html">Chuckle Poly</a></th>
+      <th><a href="Games.htm">Games</a></th>
+      
+      <th><a href="Videos.htm">Videos</a></th>
+ <th><a href="AboutUs.htm">About Us</a></th>
+    </tr>
+    <tr>
+      <td colspan="4">
+        <h1>Videos Page</h1>
+        <p>Browse our collection of videos below.</p>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4">
+        <div id="videoList" class="video-list"></div>
+      </td>
+    </tr>
+  </table>
+
+  <script>
+    function renderVideos() {
+      const videoList = document.getElementById('videoList');
+      videoList.innerHTML = '';
+
+      let videos = JSON.parse(localStorage.getItem('videos')) || [];
+
+      videos.forEach(video => {
+        const videoEntry = document.createElement('div');
+        videoEntry.className = 'video-entry';
+        videoEntry.innerHTML = `
+          <a href="${video.url}" target="_blank">
+            <img src="${video.thumbnail}" alt="${video.title}">
+            <div class="video-info">
+              <h3>${video.title}</h3>
+            </div>
+          </a>
+        `;
+        videoList.appendChild(videoEntry);
+      });
+    }
+
+    renderVideos();
+  </script>
+</body>
+</html>

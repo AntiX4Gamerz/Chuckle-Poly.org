@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ChucklePoly.org</title>
+  <style>
+    body {
+      background-image: url('img/bg.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      position: relative;
+    }
+
+    /* Overlay to enhance text visibility over background image */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6); /* Semi-transparent overlay */
+      z-index: -1; /* Place it behind the content */
+    }
+
+    table {
+      width: 100%;
+      height: auto;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 0px solid blue;
+      padding: 10px;
+      text-align: center;
+    }
+
+    a {
+      text-decoration: none;
+      color: #F5F5F5; /* Light text for better visibility */
+      font-size: 1em;
+      font-family: 'Centaur', serif;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      color: #FFD700; /* Hover color - gold */
+    }
+
+    h1 {
+      font-family: 'Cascadia Code', monospace;
+      font-size: 60px;
+      color: #FFFFFF; /* White text */
+    }
+
+    h2 {
+      color: #FFD700; /* Gold for secondary headings */
+      font-family: 'Colonna MT', serif;
+      font-size: 40px;
+    }
+
+    .subscribe {
+      font-size: 5em;
+      color: #FF6347; /* Tomato red for attention */
+      font-family: 'Algerian', cursive;
+    }
+
+    .thanks {
+      color: #F5F5F5; /* Light text */
+      font-size: 4em;
+      font-family: 'Old English Text MT', cursive;
+    }
+  </style>
+</head>
+<body>
+  <table>
+    <!-- Row1 -->
+    <tr style="background-color: rgba(255, 0, 0, 0.7);"> <!-- Semi-transparent red -->
+      <th><a href="Index.html">Chuckle Poly</a></th>
+      <th><a href="Games.htm">Games</a></th>
+      <th><a href="Videos.htm">Videos</a></th>
+<th><a href="AboutUs.htm">About Us</a></th>
+    </tr>
+
+    <!-- Row2 -->
+    <tr>
+      <th colspan="6">
+        <h1>Welcome To Our Website.</h1>
+        <br>
+        <h2>Chuckle Poly.org</h2>
+      </th>
+    </tr>
+
+    <!-- Row3 -->
+    <tr>
+      <th colspan="6">
+        <a href="https://www.youtube.com/@chucklepolyy" class="subscribe">Subscribe Now!</a>
+      </th>
+    </tr>
+
+    <!-- Row4 -->
+    <tr>
+      <th colspan="6"></th>
+    </tr>
+
+    <!-- Row5 -->
+    <tr>
+      <th colspan="6" class="thanks">Thanks for visiting!</th>
+    </tr>
+
+    <!-- Row6 -->
+    <tr>
+      <th colspan="6"></th>
+    </tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Developer Options - ChucklePoly.org</title>
+  <style>
+    body {
+      background-color: gray; /* Dark gray background */
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .form-container {
+      margin: 20px auto;
+      width: 80%;
+      text-align: center;
+    }
+
+    .form-container input, .form-container button {
+      font-size: 1em;
+      padding: 10px;
+      margin: 10px;
+    }
+
+    .content-list {
+      margin: 20px auto;
+      width: 80%;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 10px;
+    }
+
+    .content-entry {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .content-entry:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .content-entry img {
+      width: 100%;
+      display: block;
+    }
+
+    .content-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.7); /* Black background with opacity */
+      color: white;
+      padding: 10px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      font-size: 1em;
+      font-family: 'Centaur', serif;
+    }
+
+    .content-entry:hover .content-info {
+      opacity: 1;
+    }
+
+    .remove-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 0.8em;
+      transition: background-color 0.3s ease;
+    }
+
+    .remove-button:hover {
+      background-color: darkred;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Upload Content</h1>
+
+    <!-- Form to add videos -->
+    <form id="videoForm">
+      <h2>Add Video</h2>
+      <input type="text" id="videoTitle" placeholder="Video Title" required><br>
+      <input type="url" id="videoUrl" placeholder="Video URL" required><br>
+      <input type="url" id="videoThumbnail" placeholder="Thumbnail URL" required><br>
+      <button type="submit">Upload Video</button>
+    </form>
+
+    <!-- Form to add games -->
+    <form id="gameForm">
+      <h2>Add Game</h2>
+      <input type="text" id="gameTitle" placeholder="Game Title" required><br>
+      <input type="url" id="gameUrl" placeholder="Game URL" required><br>
+      <input type="url" id="gameThumbnail" placeholder="Thumbnail URL" required><br>
+      <button type="submit">Upload Game</button>
+    </form>
+
+    <h2>Uploaded Content</h2>
+    <div id="videoList" class="content-list"></div>
+    <div id="gameList" class="content-list"></div>
+  </div>
+
+  <script>
+    const videoForm = document.getElementById('videoForm');
+    const gameForm = document.getElementById('gameForm');
+    const videoList = document.getElementById('videoList');
+    const gameList = document.getElementById('gameList');
+
+    function renderContent(type) {
+      const list = type === 'video' ? videoList : gameList;
+      list.innerHTML = '';
+
+      let items = JSON.parse(localStorage.getItem(type + 's')) || [];
+
+      items.forEach((item, index) => {
+        const entry = document.createElement('div');
+        entry.className = 'content-entry';
+        entry.innerHTML = `
+          <a href="${item.url}" target="_blank">
+            <img src="${item.thumbnail}" alt="${item.title}">
+            <div class="content-info">
+              <h3>${item.title}</h3>
+              <button class="remove-button" data-index="${index}" data-type="${type}">Remove</button>
+            </div>
+          </a>
+        `;
+        list.appendChild(entry);
+      });
+
+      // Add event listeners for remove buttons
+      document.querySelectorAll('.remove-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const index = e.target.dataset.index;
+          const contentType = e.target.dataset.type;
+          removeContent(index, contentType);
+        });
+      });
+    }
+
+    function removeContent(index, type) {
+      let items = JSON.parse(localStorage.getItem(type + 's')) || [];
+      items.splice(index, 1);
+      localStorage.setItem(type + 's', JSON.stringify(items));
+
+      // Update the lists
+      renderContent('video');
+      renderContent('game');
+    }
+
+    videoForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const title = document.getElementById('videoTitle').value;
+      const url = document.getElementById('videoUrl').value;
+      const thumbnail = document.getElementById('videoThumbnail').value;
+
+      if (title && url && thumbnail) {
+        const videoData = { title, url, thumbnail };
+
+        // Save video data to local storage
+        let videos = JSON.parse(localStorage.getItem('videos')) || [];
+        videos.push(videoData);
+        localStorage.setItem('videos', JSON.stringify(videos));
+
+        // Reset the form
+        videoForm.reset();
+
+        // Render the updated list
+        renderContent('video');
+      }
+    });
+
+    gameForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const title = document.getElementById('gameTitle').value;
+      const url = document.getElementById('gameUrl').value;
+      const thumbnail = document.getElementById('gameThumbnail').value;
+
+      if (title && url && thumbnail) {
+        const gameData = { title, url, thumbnail };
+
+        // Save game data to local storage
+        let games = JSON.parse(localStorage.getItem('games')) || [];
+        games.push(gameData);
+        localStorage.setItem('games', JSON.stringify(games));
+
+        // Reset the form
+        gameForm.reset();
+
+        // Render the updated list
+        renderContent('game');
+      }
+    });
+
+    // Initial render
+    renderContent('video');
+    renderContent('game');
+  </script>
+</body>
+</html>

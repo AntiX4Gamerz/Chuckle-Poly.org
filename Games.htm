@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Games - ChucklePoly.org</title>
+  <style>
+    body {
+      background-image: url('img/bg.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      position: relative;
+    }
+
+    /* Overlay to enhance text visibility over background image */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6); /* Semi-transparent overlay */
+      z-index: -1; /* Place it behind the content */
+    }
+
+    table {
+      width: 100%;
+      height: auto;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 0px solid blue;
+      padding: 10px;
+      text-align: center;
+    }
+
+    a {
+      text-decoration: none;
+      color: #F5F5F5; /* Light text for better visibility */
+      font-size: 1em;
+      font-family: 'Centaur', serif;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      color: #FFD700; /* Hover color - gold */
+    }
+
+    h1 {
+      font-family: 'Cascadia Code', monospace;
+      font-size: 60px;
+      color: #FFFFFF; /* White text */
+      margin-top: 20px;
+    }
+
+    h2 {
+      color: #FFD700; /* Gold for secondary headings */
+      font-family: 'Colonna MT', serif;
+      font-size: 40px;
+    }
+
+    .game-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px; /* Space between games */
+      margin: 20px auto;
+      max-width: 1200px; /* Set a max-width to control the layout width */
+    }
+
+    .game-entry {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .game-entry:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .game-entry img {
+      width: 100%;
+      display: block;
+    }
+
+    .game-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.7); /* Black background with opacity */
+      color: white;
+      padding: 10px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      font-size: 1em;
+      font-family: 'Centaur', serif;
+    }
+
+    .game-entry:hover .game-info {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <table>
+    <tr style="background-color: rgba(255, 0, 0, 0.7);"> <!-- Semi-transparent red -->
+      <th><a href="Index.html">Chuckle Poly</a></th>
+      <th><a href="Games.htm">Games</a></th>
+      <th><a href="Videos.htm">Videos</a></th>
+<th><a href="AboutUs.htm">About Us</a></th>
+    </tr>
+    <tr>
+      <td colspan="4">
+        <h1>Our Games</h1>
+        <p style="text-align: center; color: #F5F5F5;">Explore our collection of games below.</p>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4">
+        <div id="gameList" class="game-list"></div>
+      </td>
+    </tr>
+  </table>
+
+  <script>
+    function renderGames() {
+      const gameList = document.getElementById('gameList');
+      gameList.innerHTML = '';
+
+      let games = JSON.parse(localStorage.getItem('games')) || [];
+
+      games.forEach(game => {
+        const gameEntry = document.createElement('div');
+        gameEntry.className = 'game-entry';
+        gameEntry.innerHTML = `
+          <a href="${game.url}" target="_blank">
+            <img src="${game.thumbnail}" alt="${game.title}">
+            <div class="game-info">
+              <h3>${game.title}</h3>
+              <p>${game.description}</p>
+            </div>
+          </a>
+        `;
+        gameList.appendChild(gameEntry);
+      });
+    }
+
+    renderGames();
+  </script>
+</body>
+</html>
